@@ -24,4 +24,4 @@ RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-CMD ["gunicorn", "coffee_pos.wsgi:application", "--bind", "0.0.0.0:8000", "--log-file", "-"]
+CMD gunicorn coffee_pos.wsgi:application --bind 0.0.0.0:${PORT:-8000} --log-file -
