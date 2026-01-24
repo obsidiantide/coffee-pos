@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["python311", "postgresql"]
+
+[phases.install]
+cmds = ["pip install -r backend/requirements.txt"]
+
+[phases.build]
+cmds = ["python backend/manage.py collectstatic --noinput"]
+
+[start]
+cmd = "gunicorn --chdir backend coffee_pos.wsgi --log-file -"
