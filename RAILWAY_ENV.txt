@@ -1,0 +1,22 @@
+========================================
+ПЕРЕМЕННЫЕ ОКРУЖЕНИЯ ДЛЯ RAILWAY
+========================================
+
+Скопируйте эти переменные в Railway Settings → Variables:
+
+SECRET_KEY=9U1eee_nbNwBV8TEcxyC5cfNebgNvzGc58WdiueT2jYlQ76QXAND0NUNCjHyuX6f-zA
+
+DEBUG=False
+
+ALLOWED_HOSTS=coffee-pos-production-6cc0.up.railway.app,*.railway.app
+
+CORS_ALLOWED_ORIGINS=https://coffee-pos-production-6cc0.up.railway.app
+
+========================================
+ВАЖНО: DATABASE_URL создается автоматически
+========================================
+
+Railway автоматически создаст переменную DATABASE_URL 
+после добавления PostgreSQL базы данных.
+
+Не добавляйте её вручную!
