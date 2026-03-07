@@ -210,3 +210,33 @@ class Expense(models.Model):
     
     def __str__(self):
         return f"{self.description} - {self.amount} AZN"
+
+
+class Activity(models.Model):
+    ACTION_CHOICES = [
+        ('order_created', 'Order Created'),
+        ('order_updated', 'Order Updated'),
+        ('order_completed', 'Order Completed'),
+        ('order_cancelled', 'Order Cancelled'),
+        ('shift_opened', 'Shift Opened'),
+        ('shift_closed', 'Shift Closed'),
+        ('expense_added', 'Expense Added'),
+        ('user_login', 'User Login'),
+        ('user_logout', 'User Logout'),
+    ]
+    
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='activities')
+    action = models.CharField(max_length=20, choices=ACTION_CHOICES)
+    description = models.TextField()
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='activities', null=True, blank=True)
+    shift = models.ForeignKey(Shift, on_delete=models.CASCADE, related_name='activities', null=True, blank=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name_plural = 'Activities'
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.get_action_display()} - {self.created_at.strftime('%Y-%m-%d %H:%M')}"
