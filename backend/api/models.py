@@ -61,6 +61,8 @@ class Extra(models.Model):
 class Order(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
+        ('preparing', 'Preparing'),
+        ('ready', 'Ready'),
         ('completed', 'Completed'),
         ('cancelled', 'Cancelled'),
     ]
@@ -77,6 +79,8 @@ class Order(models.Model):
     cash_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     card_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    preparation_started_at = models.DateTimeField(null=True, blank=True)
+    ready_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -96,6 +100,23 @@ class Order(models.Model):
         self.total_amount = total
         self.save(update_fields=["total_amount", "updated_at"])
         return total
+
+    def start_preparation(self):
+        from django.utils import timezone
+        self.status = 'preparing'
+        self.preparation_started_at = timezone.now()
+        self.save(update_fields=['status', 'preparation_started_at', 'updated_at'])
+
+    def mark_ready(self):
+        from django.utils import timezone
+        self.status = 'ready'
+        self.ready_at = timezone.now()
+        self.save(update_fields=['status', 'ready_at', 'updated_at'])
+
+    def get_preparation_time(self):
+        if self.preparation_started_at and self.ready_at:
+            return self.ready_at - self.preparation_started_at
+        return None
 
 
 class OrderItem(models.Model):

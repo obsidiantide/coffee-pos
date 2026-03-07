@@ -59,16 +59,23 @@ export interface OrderDTO {
   id: number
   user: number
   user_name?: string
-  status: 'pending' | 'completed' | 'cancelled'
-  payment_type: 'cash' | 'card'
+  status: 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled'
+  payment_type: 'cash' | 'card' | 'split'
   total_amount: string
+  cash_amount?: string
+  card_amount?: string
+  preparation_started_at?: string | null
+  ready_at?: string | null
   items: OrderItemDTO[]
   created_at: string
+  updated_at?: string
 }
 
 export interface CreateOrderPayload {
-  status?: 'pending' | 'completed' | 'cancelled'
-  payment_type: 'cash' | 'card'
+  status?: 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled'
+  payment_type: 'cash' | 'card' | 'split'
+  cash_amount?: string
+  card_amount?: string
   items: Array<{
     product: number
     quantity: number
