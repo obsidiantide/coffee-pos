@@ -257,4 +257,22 @@ For support and questions:
 
 ---
 
-**Built with ❤️ for coffee shop owners who deserve the best tools for their business.**
+## 👨‍💻 Author
+
+**Muza** - Full-Stack Developer
+
+A software engineer specializing in web application development with expertise in modern JavaScript frameworks and Python-based backend systems. This project demonstrates comprehensive full-stack development capabilities and practical business application design.
+
+### 🎯 Project Background
+Developed to address operational challenges in the hospitality sector, specifically coffee shops requiring efficient point-of-sale solutions. The system combines industry best practices with real-world business requirements.
+
+### 🚀 Technical Expertise
+- **Backend Architecture**: Django REST Framework, relational database design
+- **Frontend Development**: React ecosystem, TypeScript implementation
+- **System Design**: Scalable application architecture and API development
+- **Security Implementation**: Authentication systems and audit trail design
+- **Deployment Strategies**: Cloud deployment and containerization
+
+---
+
+**Developed by Muza - Professional full-stack development solutions.**
