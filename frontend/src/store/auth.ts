@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { api, setAuthHooks } from '@/lib/api'
+import { getErrorMessage } from '@/lib/errors'
 import type { User } from '@/types'
 import type { StateCreator } from 'zustand'
 
@@ -27,8 +28,8 @@ const authCreator: StateCreator<AuthState> = (set, get) => ({
         try {
           const { data } = await api.post('/auth/login/', { username, password })
           set({ user: data.user, access: data.access, refresh: data.refresh, loading: false })
-        } catch (e: any) {
-          const msg = e?.response?.data?.detail || e?.response?.data?.non_field_errors?.[0] || 'Login failed'
+        } catch (e) {
+          const msg = getErrorMessage(e, 'Login failed')
           set({ error: msg, loading: false })
           throw e
         }

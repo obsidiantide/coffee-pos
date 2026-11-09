@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from '@/lib/api'
+import { getErrorStatus } from '@/lib/errors'
 import type { Shift, ShiftReport } from '@/types'
 import { Clock, DollarSign, TrendingUp, AlertCircle, Plus } from 'lucide-react'
 import ShiftReportModal from './ShiftReportModal'
@@ -21,8 +22,8 @@ export default function ShiftManager() {
     try {
       const { data } = await api.get('/shifts/active/')
       setActiveShift(data)
-    } catch (err: any) {
-      if (err?.response?.status !== 404) {
+    } catch (err) {
+      if (getErrorStatus(err) !== 404) {
         console.error('Failed to load active shift', err)
       }
     }

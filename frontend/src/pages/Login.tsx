@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/store/auth'
+import { getErrorMessage } from '@/lib/errors'
 import { Coffee, Lock, User } from 'lucide-react'
 
 export default function Login() {
@@ -19,8 +20,8 @@ export default function Login() {
       await login(username, password)
       const role = useAuth.getState().user?.role
       navigate(role === 'admin' ? '/admin' : '/pos', { replace: true })
-    } catch (e: any) {
-      setError(e?.response?.data?.detail || 'Login failed')
+    } catch (e) {
+      setError(getErrorMessage(e, 'Login failed'))
     } finally {
       setLoading(false)
     }

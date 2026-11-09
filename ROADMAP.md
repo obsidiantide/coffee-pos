@@ -13,7 +13,7 @@
 
 ## C. Architecture & Refactoring
 - [ ] Extract shared modal shell from the Shift* modals
-- [ ] Replace `any` in API error handling with a typed `getErrorMessage` helper
+- [x] Replace `any` in API error handling with a typed `getErrorMessage` helper
 
 ## D. Performance & Polish
 - [ ] Route-level code splitting for admin pages
