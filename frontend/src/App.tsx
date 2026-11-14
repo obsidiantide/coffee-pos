@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect } from 'react'
 import { Routes, Route, Navigate, Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '@/store/auth'
+import type { LucideIcon } from 'lucide-react'
 import { Coffee, ShoppingCart, Calendar, LayoutGrid, FileText, Clock, LogOut } from 'lucide-react'
 import Login from '@/pages/Login'
 import Pos from '@/pages/Pos'
@@ -19,12 +20,26 @@ function Protected({ children, role }: { children: JSX.Element; role?: 'barista'
   return children
 }
 
+type NavItem = { to: string; label: string; icon: LucideIcon }
+
+const BARISTA_NAV: NavItem[] = [
+  { to: '/pos', label: 'POS', icon: ShoppingCart },
+  { to: '/orders', label: 'Today', icon: Calendar },
+]
+
+const ADMIN_NAV: NavItem[] = [
+  { to: '/admin', label: 'Menu', icon: LayoutGrid },
+  { to: '/admin/orders', label: 'Orders', icon: ShoppingCart },
+  { to: '/admin/shifts', label: 'Shifts', icon: Clock },
+  { to: '/admin/reports', label: 'Reports', icon: FileText },
+]
+
 function NavBar() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
-  const isActive = (path: string) => location.pathname === path
+  const navItems = user?.role === 'admin' ? ADMIN_NAV : user?.role === 'barista' ? BARISTA_NAV : []
 
   return (
     <div className="w-full bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200/50">
@@ -39,85 +54,24 @@ function NavBar() {
           </Link>
 
           {/* Navigation Links */}
-          {user?.role === 'barista' && (
+          {navItems.length > 0 && (
             <div className="flex gap-2">
-              <Link 
-                to="/pos" 
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                  isActive('/pos') 
-                    ? 'text-white shadow-lg' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-                style={isActive('/pos') ? { background: '#6B4423' } : {}}
-              >
-                <ShoppingCart size={18} />
-                POS
-              </Link>
-              <Link 
-                to="/orders" 
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                  isActive('/orders') 
-                    ? 'text-white shadow-lg' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-                style={isActive('/orders') ? { background: '#6B4423' } : {}}
-              >
-                <Calendar size={18} />
-                Today
-              </Link>
-            </div>
-          )}
-
-          {user?.role === 'admin' && (
-            <div className="flex gap-2">
-              <Link 
-                to="/admin" 
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                  isActive('/admin') 
-                    ? 'text-white shadow-lg' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-                style={isActive('/admin') ? { background: '#6B4423' } : {}}
-              >
-                <LayoutGrid size={18} />
-                Menu
-              </Link>
-              <Link 
-                to="/admin/orders" 
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                  isActive('/admin/orders') 
-                    ? 'text-white shadow-lg' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-                style={isActive('/admin/orders') ? { background: '#6B4423' } : {}}
-              >
-                <ShoppingCart size={18} />
-                Orders
-              </Link>
-              <Link 
-                to="/admin/shifts" 
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                  isActive('/admin/shifts') 
-                    ? 'text-white shadow-lg' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-                style={isActive('/admin/shifts') ? { background: '#6B4423' } : {}}
-              >
-                <Clock size={18} />
-                Shifts
-              </Link>
-              <Link 
-                to="/admin/reports" 
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                  isActive('/admin/reports') 
-                    ? 'text-white shadow-lg' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-                style={isActive('/admin/reports') ? { background: '#6B4423' } : {}}
-              >
-                <FileText size={18} />
-                Reports
-              </Link>
+              {navItems.map(({ to, label, icon: Icon }) => {
+                const active = location.pathname === to
+                return (
+                  <Link
+                    key={to}
+                    to={to}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                      active ? 'text-white shadow-lg' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                    style={active ? { background: '#6B4423' } : {}}
+                  >
+                    <Icon size={18} />
+                    {label}
+                  </Link>
+                )
+              })}
             </div>
           )}
 
