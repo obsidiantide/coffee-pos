@@ -9,7 +9,8 @@
 - [x] Vitest setup, cart store and formatters
 - [x] Auth store
 - [ ] Component tests for `ShiftManager` and `AddExpenseModal`
-- [ ] Backend: analytics utilities and order preparation tracking (pytest)
+- [x] Backend: analytics utilities (pytest)
+- [ ] Backend: order preparation tracking endpoints (pytest)
 
 ## C. Architecture & Refactoring
 - [ ] Extract shared modal shell from the Shift* modals
