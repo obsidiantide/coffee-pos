@@ -1,14 +1,16 @@
-import { useEffect } from 'react'
+import { Suspense, lazy, useEffect } from 'react'
 import { Routes, Route, Navigate, Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '@/store/auth'
 import { Coffee, ShoppingCart, Calendar, LayoutGrid, FileText, Clock, LogOut } from 'lucide-react'
 import Login from '@/pages/Login'
 import Pos from '@/pages/Pos'
 import TodaysOrders from '@/pages/TodaysOrders'
-import AdminMenu from '@/pages/admin/Menu'
-import AdminOrders from '@/pages/admin/Orders'
-import AdminReports from '@/pages/admin/Reports'
-import AdminShifts from '@/pages/admin/Shifts'
+import LoadingSpinner from '@/components/LoadingSpinner'
+
+const AdminMenu = lazy(() => import('@/pages/admin/Menu'))
+const AdminOrders = lazy(() => import('@/pages/admin/Orders'))
+const AdminReports = lazy(() => import('@/pages/admin/Reports'))
+const AdminShifts = lazy(() => import('@/pages/admin/Shifts'))
 
 function Protected({ children, role }: { children: JSX.Element; role?: 'barista' | 'admin' }) {
   const { user } = useAuth()
@@ -152,6 +154,7 @@ export default function App() {
     <div className="min-h-screen flex flex-col">
       <NavBar />
       <div className="flex-1 p-6 max-w-7xl mx-auto w-full">
+        <Suspense fallback={<LoadingSpinner />}>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={user ? <Navigate to={user.role === 'admin' ? '/admin' : '/pos'} replace /> : <Navigate to="/login" replace />} />
@@ -162,6 +165,7 @@ export default function App() {
           <Route path="/admin/shifts" element={<Protected role="admin"><AdminShifts /></Protected>} />
           <Route path="/admin/reports" element={<Protected role="admin"><AdminReports /></Protected>} />
         </Routes>
+        </Suspense>
       </div>
     </div>
   )

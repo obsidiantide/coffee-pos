@@ -16,6 +16,6 @@
 - [x] Replace `any` in API error handling with a typed `getErrorMessage` helper
 
 ## D. Performance & Polish
-- [ ] Route-level code splitting for admin pages
+- [x] Route-level code splitting for admin pages
 - [ ] Dark theme for the POS screen
 - [ ] Touch-friendly sizing for tablet layout
