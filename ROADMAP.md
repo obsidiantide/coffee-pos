@@ -13,7 +13,7 @@
 - [ ] Backend: order preparation tracking endpoints (pytest)
 
 ## C. Architecture & Refactoring
-- [ ] Extract shared modal shell from the Shift* modals
+- [x] Extract shared modal shell from the Shift* modals
 - [x] Replace `any` in API error handling with a typed `getErrorMessage` helper
 
 ## D. Performance & Polish
