@@ -77,10 +77,10 @@ export default function Pos() {
       <ShiftManager />
       <div className="grid grid-cols-3 gap-3">
       <div className="col-span-2 space-y-3">
-        <div className="flex gap-2">
-          <button onClick={() => { setActiveCat('all'); fetchProducts('all') }} className={`px-4 py-2 rounded ${activeCat==='all' ? 'bg-primary text-white' : 'bg-white border'}`}>All</button>
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          <button onClick={() => { setActiveCat('all'); fetchProducts('all') }} className={`min-h-[44px] shrink-0 px-4 py-2 rounded ${activeCat==='all' ? 'bg-primary text-white' : 'bg-white border'}`}>All</button>
           {categories.map((c) => (
-            <button key={c.id} onClick={() => { setActiveCat(c.id); fetchProducts(c.id) }} className={`px-4 py-2 rounded ${activeCat===c.id ? 'bg-primary text-white' : 'bg-white border'}`}>{c.name}</button>
+            <button key={c.id} onClick={() => { setActiveCat(c.id); fetchProducts(c.id) }} className={`min-h-[44px] shrink-0 px-4 py-2 rounded ${activeCat===c.id ? 'bg-primary text-white' : 'bg-white border'}`}>{c.name}</button>
           ))}
         </div>
         <input
@@ -89,7 +89,7 @@ export default function Pos() {
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search products..."
           aria-label="Search products"
-          className="w-full rounded border bg-white px-4 py-2"
+          className="min-h-[44px] w-full rounded border bg-white px-4 py-2"
         />
         {filtered.length === 0 && (
           <div className="py-8 text-center text-sm" style={{ color: '#757575' }}>No products found</div>

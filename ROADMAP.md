@@ -19,4 +19,4 @@
 ## D. Performance & Polish
 - [x] Route-level code splitting for admin pages
 - [ ] Dark theme for the POS screen
-- [ ] Touch-friendly sizing for tablet layout
+- [x] Touch-friendly category tabs and search field on the POS screen (44px targets; rest of tablet layout still open)
