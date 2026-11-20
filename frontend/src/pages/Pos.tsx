@@ -3,6 +3,7 @@ import { api } from '@/lib/api'
 import type { Category, Extra, Product } from '@/types'
 import { useOrder } from '@/store/order'
 import { azn } from '@/lib/format'
+import { filterProducts } from '@/lib/products'
 import { Plus, Minus, Check, Trash2 } from 'lucide-react'
 import ShiftManager from '@/components/ShiftManager'
 
@@ -10,6 +11,7 @@ export default function Pos() {
   const [categories, setCategories] = useState<Category[]>([])
   const [products, setProducts] = useState<Product[]>([])
   const [extras, setExtras] = useState<Extra[]>([])
+  const [search, setSearch] = useState('')
   const [activeCat, setActiveCat] = useState<number | 'all'>('all')
   const [submitting, setSubmitting] = useState(false)
   const [selectedProductId, setSelectedProductId] = useState<number | null>(null)
@@ -39,7 +41,7 @@ export default function Pos() {
     setProducts(data)
   }
 
-  const filtered = useMemo(() => products, [products])
+  const filtered = useMemo(() => filterProducts(products, search), [products, search])
 
   const onSubmit = async (complete = true) => {
     if (order.items.length === 0) return
@@ -81,6 +83,17 @@ export default function Pos() {
             <button key={c.id} onClick={() => { setActiveCat(c.id); fetchProducts(c.id) }} className={`px-4 py-2 rounded ${activeCat===c.id ? 'bg-primary text-white' : 'bg-white border'}`}>{c.name}</button>
           ))}
         </div>
+        <input
+          type="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search products..."
+          aria-label="Search products"
+          className="w-full rounded border bg-white px-4 py-2"
+        />
+        {filtered.length === 0 && (
+          <div className="py-8 text-center text-sm" style={{ color: '#757575' }}>No products found</div>
+        )}
         <div className="grid grid-cols-3 gap-4">
           {filtered.map((p, idx) => (
             <button 

@@ -2,7 +2,7 @@
 
 ## A. Core Features
 - [ ] Split-payment (cash + card) at checkout
-- [ ] Product search and favourites on the POS screen
+- [x] Product search on the POS screen (favourites still open)
 - [ ] Low-stock indicators in admin menu
 
 ## B. Test Coverage
