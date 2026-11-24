@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { DollarSign } from 'lucide-react'
 import ModalShell from './ModalShell'
+import { validateExpense } from '../lib/expense'
 
 interface Props {
   onClose: () => void
@@ -14,11 +15,12 @@ export default function AddExpenseModal({ onClose, onSave, loading = false }: Pr
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!description.trim() || !amount) {
-      alert('Please fill in all fields')
+    const result = validateExpense(description, amount)
+    if (!result.ok) {
+      alert(result.error)
       return
     }
-    onSave(description.trim(), Number(amount))
+    onSave(result.description, result.amount)
   }
 
   return (
